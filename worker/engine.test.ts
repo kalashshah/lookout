@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { atLocal, durationDue, inWindow, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
+import { atLocal, fmtMinutes, durationDue, inWindow, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
 import type { Rule } from './types'
 
 const TZ = 'America/Los_Angeles'
@@ -149,5 +149,13 @@ describe('atLocal', () => {
   })
   it('round-trips through localTime', () => {
     expect(localTime(atLocal('2026-10-13', '00:05', TZ), TZ)).toMatchObject({ date: '2026-10-13', hm: '00:05' })
+  })
+})
+
+describe('fmtMinutes', () => {
+  it('reads like a person would say it', () => {
+    expect(fmtMinutes(45)).toBe('45 min')
+    expect(fmtMinutes(120)).toBe('2h')
+    expect(fmtMinutes(296)).toBe('4h 56m')
   })
 })

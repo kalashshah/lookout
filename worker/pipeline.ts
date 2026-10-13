@@ -1,7 +1,7 @@
 import { evaluateFrame, takeBudget } from './ai'
 import { fireAlert } from './alerts'
 import { firedOn, getSettings, lastFire, listRules, recentMatchTimes } from './db'
-import { durationDue, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
+import { durationDue, fmtMinutes, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
 import { snapshot } from './ring'
 import type { Rule } from './types'
 
@@ -109,7 +109,7 @@ export async function tick(env: Env, now: number): Promise<void> {
     const lastEvent = await env.DB.prepare('SELECT id FROM events WHERE at <= ?1 AND image_key IS NOT NULL ORDER BY at DESC LIMIT 1')
       .bind(ep.last_seen_at)
       .first<{ id: string }>()
-    await fireAlert(env, settings, f, now, `Still there after ${since} minutes.`, lastEvent?.id ?? null)
+    await fireAlert(env, settings, f, now, `Still there after ${fmtMinutes(since)}.`, lastEvent?.id ?? null)
   }
 
   const { results: retry } = await env.DB.prepare(

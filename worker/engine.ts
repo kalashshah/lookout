@@ -101,3 +101,9 @@ export function atLocal(date: string, hm: string, tz: string): number {
   const first = guess - offsetAt(guess)
   return guess - offsetAt(first)
 }
+
+/** 45 → "45 min", 120 → "2h", 296 → "4h 56m". */
+export function fmtMinutes(m: number): string {
+  if (m < 60) return `${m} min`
+  return m % 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m / 60}h`
+}

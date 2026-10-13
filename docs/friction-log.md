@@ -21,7 +21,7 @@ Format: task · steps · expected vs actual · severity · workaround · suggest
 ## 3. Playground device is offline; snapshots return 416 and a bad body returns 403
 - **Task:** Fetch a frame for an event with the Image Snapshot API on a Playground token.
 - **Steps:** `GET /v1/devices`, `/status`, `/capabilities` → `POST /v1/devices/{id}/media/image/download` with `at_timestamp` → follow the 303.
-- **Expected vs actual:** Device discovery works, but status says `"online": false` and event history is empty. The 303 points to a pre-signed URL that returns `416 MEDIA_NOT_FOUND`. Sending `{"type":"latest"}` returns `403 REQUEST_FORBIDDEN` ("missing required timestamp fields"), which looks like an auth failure but is a validation error.
+- **Expected vs actual:** Device discovery works, but status says `"online": false` and event history is empty. The 303 points to a pre-signed URL that returns `416 MEDIA_NOT_FOUND`. Sending `{"type":"latest"}` returns `403 REQUEST_FORBIDDEN` ("missing required timestamp fields"), which looks like an auth failure but is a validation error. Starting a Playground live stream adds an `on_demand` history event (start/end shown), but snapshot and video downloads (`media/video/download` with `duration`) inside that exact range still return 416, so Playground live views store no media.
 - **Severity:** Medium. The snapshot path can't be tested end to end without a real device.
 - **Workaround:** The demo uses scene images; the app falls back to "no frame" when the snapshot is unavailable.
 - **Suggestion:** Return 400 for malformed bodies, and say which Playground actions create media that snapshots can fetch.

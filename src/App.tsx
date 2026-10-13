@@ -3,6 +3,7 @@ import { api, ApiError, type Alert, type Settings } from './api'
 import { KindIcon } from './icons'
 import { Alerts } from './pages/Alerts'
 import { Demo } from './pages/Demo'
+import { Landing } from './pages/Landing'
 import { SettingsPage } from './pages/Settings'
 import { Today } from './pages/Today'
 import { Watch } from './pages/Watch'
@@ -91,7 +92,7 @@ export function App() {
   }, [path, feed.alerts])
 
   if (authed === null) return null
-  if (!authed) return <Login onDone={() => setAuthed(true)} />
+  if (!authed) return <Landing onSignedIn={() => setAuthed(true)} />
   if (!settings) return null
 
   const seenAt = feed.alerts.findIndex((a) => a.id === lastSeenId)
@@ -134,41 +135,6 @@ export function App() {
           </div>
         ))}
       </div>
-    </div>
-  )
-}
-
-function Login({ onDone }: { onDone: () => void }) {
-  const [token, setToken] = useState('')
-  const [error, setError] = useState('')
-  return (
-    <div className="center shell">
-      <form
-        className="login card"
-        onSubmit={async (e) => {
-          e.preventDefault()
-          setError('')
-          try {
-            await api.login(token)
-            onDone()
-          } catch (err) {
-            setError((err as Error).message)
-          }
-        }}
-      >
-        <div className="brand">
-          <span className="brand-dot" /> Watchword
-        </div>
-        <p className="muted">Tell your Ring camera what to watch for — in plain words.</p>
-        <div className="field">
-          <label htmlFor="token">Household access code</label>
-          <input id="token" className="input" type="password" value={token} onChange={(e) => setToken(e.target.value)} autoFocus />
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button className="btn primary" disabled={!token}>
-          Sign in
-        </button>
-      </form>
     </div>
   )
 }

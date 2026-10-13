@@ -5,3 +5,4 @@ dist/
 .superpowers/
 .env*
 !.dev.vars.example
+.secrets.env

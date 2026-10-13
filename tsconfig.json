@@ -8,7 +8,8 @@
     "skipLibCheck": true,
     "noEmit": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": []
+    "types": ["node"],
+    "allowImportingTsExtensions": true
   },
   "include": ["worker-configuration.d.ts", "worker", "src", "scripts", "vite.config.ts", "vitest.config.ts"]
 }

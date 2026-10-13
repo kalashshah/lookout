@@ -1,0 +1,4 @@
+APP_TOKEN=pick-a-long-random-string
+RING_HMAC_KEY=your-ring-hmac-signing-key
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=

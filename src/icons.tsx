@@ -17,7 +17,6 @@ const paths: Record<string, React.ReactNode> = {
 
 const ALERT_ICON: Record<Alert['kind'], string> = {
   arrived: 'arrival',
-  ok: 'check',
   missed: 'alert',
   seen: 'window',
   lingering: 'duration',

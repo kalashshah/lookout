@@ -96,7 +96,7 @@ export function App() {
   if (!settings) return null
 
   const seenAt = feed.alerts.findIndex((a) => a.id === lastSeenId)
-  const unread = (seenAt === -1 ? feed.alerts : feed.alerts.slice(0, seenAt)).filter((a) => a.kind !== 'ok').length
+  const unread = (seenAt === -1 ? feed.alerts : feed.alerts.slice(0, seenAt)).length
   const tz = settings.tz
   const page = PAGES.find((p) => p.path === path) ? path : '/'
 

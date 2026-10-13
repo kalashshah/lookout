@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { api, fmtTime, frameUrl, type Rule, type WatchEvent } from '../api'
+import { api, fmtHm, fmtTime, frameUrl, type Rule, type WatchEvent } from '../api'
 
 const TYPE_LABEL = (e: WatchEvent) =>
   e.type === 'button_press'
@@ -49,7 +49,7 @@ export function Today({ tz }: { tz: string }) {
                   <p className="caption">{e.caption || STATUS_NOTE[e.status] || ''}</p>
                   {e.matches.map((m) => (
                     <div key={m.rule_id} className="row" style={{ gap: 8 }}>
-                      <span className="chip accent">✓ {rules.get(m.rule_id)?.summary ?? 'Rule'}</span>
+                      <span className="chip accent">✓ {matchLabel(rules.get(m.rule_id))}</span>
                       <span className="muted small">
                         {m.reason} · {Math.round(m.confidence * 100)}%
                       </span>
@@ -64,3 +64,7 @@ export function Today({ tz }: { tz: string }) {
     </main>
   )
 }
+
+// A deadline rule matching means the thing happened in time, so say that rather than repeat its "if not" title.
+const matchLabel = (r?: Rule) =>
+  !r ? 'Rule' : r.kind === 'deadline' && r.end ? `Seen before ${fmtHm(r.end)} · no alert needed` : r.summary

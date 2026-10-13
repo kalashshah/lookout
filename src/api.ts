@@ -32,7 +32,7 @@ export type Alert = {
   rule_id: string
   event_id: string | null
   at: number
-  kind: 'arrived' | 'ok' | 'missed' | 'seen' | 'lingering'
+  kind: 'arrived' | 'missed' | 'seen' | 'lingering'
   title: string
   body: string
   severity: 'info' | 'urgent'
@@ -97,9 +97,4 @@ export function describeDays(days: number[]) {
   return days.map((d) => DAY_NAMES[d]).join(', ')
 }
 
-export function fmtHm(hm: string) {
-  const [h, m] = hm.split(':').map(Number)
-  const suffix = h >= 12 ? 'pm' : 'am'
-  const h12 = h % 12 || 12
-  return m ? `${h12}:${String(m).padStart(2, '0')}${suffix}` : `${h12}${suffix}`
-}
+export { fmtHm } from '../worker/engine'

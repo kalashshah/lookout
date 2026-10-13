@@ -1,7 +1,7 @@
 import { evaluateFrame, takeBudget } from './ai'
 import { fireAlert } from './alerts'
 import { firedOn, getSettings, lastFire, listRules, recentMatchTimes } from './db'
-import { durationDue, fmtMinutes, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
+import { durationDue, fmtHm, fmtMinutes, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
 import { snapshot } from './ring'
 import type { Rule } from './types'
 
@@ -92,7 +92,7 @@ export async function tick(env: Env, now: number): Promise<void> {
   for (const rule of rules.filter((r) => r.kind === 'deadline')) {
     const times = await recentMatchTimes(env, rule.id, now - 36 * 3600_000)
     const f = onTick(rule, now, settings.tz, await firedOn(env, rule.id, today), matchedInWindowToday(rule, times, now, settings.tz))
-    if (f) await fireAlert(env, settings, f, now, `Nothing matching “${rule.look_for}” was seen before ${rule.end}.`, null)
+    if (f) await fireAlert(env, settings, f, now, `Nothing matching “${rule.look_for}” was seen by ${fmtHm(rule.end!)}.`, null)
   }
 
   const byId = new Map(rules.map((r) => [r.id, r]))

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { atLocal, fmtMinutes, durationDue, inWindow, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
+import { atLocal, fmtHm, fmtMinutes, durationDue, inWindow, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
 import type { Rule } from './types'
 
 const TZ = 'America/Los_Angeles'
@@ -69,9 +69,10 @@ describe('onMatch', () => {
     expect(onMatch(r, at('15:20'), TZ, { at: at('15:10'), date: '2026-10-13' })).toBeNull()
     expect(onMatch(r, at('15:20', '2026-10-14'), TZ, { at: at('15:10'), date: '2026-10-13' })).not.toBeNull()
   })
-  it('sends an ok note when a deadline rule is met in time', () => {
+  it('stays silent when a deadline rule is met in time (only a miss alerts)', () => {
     const r = rule({ kind: 'deadline', start: '14:30', end: '16:00' })
-    expect(onMatch(r, at('15:10'), TZ, null)).toMatchObject({ kind: 'ok', severity: 'info' })
+    expect(onMatch(r, at('15:10'), TZ, null)).toBeNull()
+    expect(onTick(r, at('16:01'), TZ, false, true)).toBeNull()
   })
   it('dedupes window alerts to one per 10 minutes', () => {
     const r = rule({ kind: 'window', start: '00:00', end: '05:00', severity: 'urgent' })
@@ -157,5 +158,13 @@ describe('fmtMinutes', () => {
     expect(fmtMinutes(45)).toBe('45 min')
     expect(fmtMinutes(120)).toBe('2h')
     expect(fmtMinutes(296)).toBe('4h 56m')
+  })
+})
+
+describe('fmtHm', () => {
+  it('formats 24h times the way people say them', () => {
+    expect(fmtHm('16:00')).toBe('4pm')
+    expect(fmtHm('09:30')).toBe('9:30am')
+    expect(fmtHm('00:00')).toBe('12am')
   })
 })

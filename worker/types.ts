@@ -15,7 +15,7 @@ export type Rule = {
   enabled: boolean
 }
 
-export type FireKind = 'arrived' | 'ok' | 'missed' | 'seen' | 'lingering'
+export type FireKind = 'arrived' | 'missed' | 'seen' | 'lingering'
 
 export type Fire = { ruleId: string; kind: FireKind; title: string; severity: Severity }
 

@@ -45,7 +45,8 @@ export function onMatch(
     return fire(rule, 'seen', rule.severity)
   }
   if (lastFire?.date === lt.date) return null
-  return rule.kind === 'arrival' ? fire(rule, 'arrived', rule.severity) : fire(rule, 'ok', 'info')
+  // A deadline met in time is silence, not an alert: the arrival rule already said they're home.
+  return rule.kind === 'arrival' ? fire(rule, 'arrived', rule.severity) : null
 }
 
 export function onTick(
@@ -80,8 +81,7 @@ export function durationDue(
 
 const TITLES: Record<Fire['kind'], (s: string) => string> = {
   arrived: (s) => s,
-  ok: (s) => `All good: ${s}`,
-  missed: (s) => `Didn't happen: ${s}`,
+  missed: (s) => s,
   seen: (s) => s,
   lingering: (s) => `Still there: ${s}`,
 }
@@ -106,4 +106,12 @@ export function atLocal(date: string, hm: string, tz: string): number {
 export function fmtMinutes(m: number): string {
   if (m < 60) return `${m} min`
   return m % 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m / 60}h`
+}
+
+/** "16:00" → "4pm", "09:30" → "9:30am". Shared with the UI. */
+export function fmtHm(hm: string) {
+  const [h, m] = hm.split(':').map(Number)
+  const suffix = h >= 12 ? 'pm' : 'am'
+  const h12 = h % 12 || 12
+  return m ? `${h12}:${String(m).padStart(2, '0')}${suffix}` : `${h12}${suffix}`
 }

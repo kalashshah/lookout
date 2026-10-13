@@ -10,7 +10,7 @@ export function Alerts({ tz, alerts }: { tz: string; alerts: Alert[] }) {
       <section className="section stack">
         {!alerts.length && <div className="empty">No alerts yet. They’ll appear here the moment a rule fires.</div>}
         {alerts.map((a) => (
-          <article key={a.id} className={`card alert ${a.severity === 'urgent' ? 'urgent' : a.kind === 'ok' ? 'ok' : ''}`}>
+          <article key={a.id} className={`card alert ${a.severity === 'urgent' ? 'urgent' : ''}`}>
             <div className="bar" />
             <div className="content">
               <div className="row" style={{ gap: 8 }}>

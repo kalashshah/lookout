@@ -78,7 +78,7 @@ export function Watch({ tz }: { tz: string }) {
     <main>
       <section className="hero">
         <h1>What should I watch for?</h1>
-        <p>Describe it the way you’d tell a neighbor. Watchword reads every Ring event and tells you when it happens — or when it doesn’t.</p>
+        <p>Describe it the way you’d tell a neighbor. Lookout reads every Ring event and tells you when it happens — or when it doesn’t.</p>
         <form
           className="ask"
           onSubmit={(e) => {
@@ -157,7 +157,7 @@ export function Watch({ tz }: { tz: string }) {
       </section>
 
       <p className="muted small section">
-        Watchword describes what it sees — clothing, objects, vehicles — and never identifies people by face or name.
+        Lookout describes what it sees — clothing, objects, vehicles — and never identifies people by face or name.
       </p>
     </main>
   )

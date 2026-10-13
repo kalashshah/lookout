@@ -31,7 +31,7 @@ export function Today({ tz }: { tz: string }) {
     <main>
       <section className="hero">
         <h1>At the door today</h1>
-        <p>Every Ring event, what Watchword saw in it, and which of your rules it matched.</p>
+        <p>Every Ring event, what Lookout saw in it, and which of your rules it matched.</p>
       </section>
       <section className="section">
         {events && !events.length && <div className="empty">No activity yet.</div>}

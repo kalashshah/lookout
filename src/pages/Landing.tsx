@@ -69,7 +69,7 @@ export function Landing({ onSignedIn }: { onSignedIn: () => void }) {
       <div className="glow" aria-hidden />
       <header className="l-top">
         <span className="brand">
-          <span className="brand-dot" /> Watchword
+          <span className="brand-dot" /> Lookout
         </span>
         <nav className="l-nav">
           <a href="#how">How it works</a>
@@ -87,7 +87,7 @@ export function Landing({ onSignedIn }: { onSignedIn: () => void }) {
             Tell your doorbell what <em>matters</em>.
           </h1>
           <p className="lede">
-            Describe it the way you’d tell a neighbor. Watchword checks every Ring event against your words and tells you when it
+            Describe it the way you’d tell a neighbor. Lookout checks every Ring event against your words and tells you when it
             happens — <strong>or when it doesn’t.</strong>
           </p>
           <div className="row">
@@ -146,7 +146,7 @@ export function Landing({ onSignedIn }: { onSignedIn: () => void }) {
         <h2 className="l-h2">
           Ring tells you when something moves.
           <br />
-          <em>Watchword tells you what it means.</em>
+          <em>Lookout tells you what it means.</em>
         </h2>
         <div className="kinds">
           {[
@@ -176,7 +176,7 @@ export function Landing({ onSignedIn }: { onSignedIn: () => void }) {
           <li className="card">
             <span className="num">2</span>
             <h3>Every Ring event gets a look</h3>
-            <p className="muted">On motion or a doorbell press, Watchword grabs the frame and checks it against all your rules in one pass.</p>
+            <p className="muted">On motion or a doorbell press, Lookout grabs the frame and checks it against all your rules in one pass.</p>
           </li>
           <li className="card">
             <span className="num">3</span>
@@ -211,7 +211,7 @@ export function Landing({ onSignedIn }: { onSignedIn: () => void }) {
           <h2 className="l-h2">Describes. Never identifies.</h2>
         </div>
         <p className="muted">
-          Rules are about what’s visible — clothing, objects, vehicles. Watchword never does face recognition and never names people.
+          Rules are about what’s visible — clothing, objects, vehicles. Lookout never does face recognition and never names people.
           AI calls are capped every day, and you can pause any rule with one tap.
         </p>
       </section>

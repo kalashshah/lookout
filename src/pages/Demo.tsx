@@ -46,7 +46,7 @@ export function Demo({ tz, onChange }: { tz: string; onChange: () => void }) {
         <h1>Demo console</h1>
         <p>
           The Ring Playground can’t send motion or doorbell webhooks, so this console posts Ring-format events — signed with the
-          same HMAC scheme Ring uses — to Watchword’s real webhook. Times are in {tz.replace('_', ' ')}.
+          same HMAC scheme Ring uses — to Lookout’s real webhook. Times are in {tz.replace('_', ' ')}.
         </p>
       </section>
 
@@ -102,7 +102,7 @@ export function Demo({ tz, onChange }: { tz: string; onChange: () => void }) {
 
       <section className="section card stack">
         <h2>2. Move the clock</h2>
-        <p className="muted">Watchword checks deadlines and “still there” rules every minute. Jump ahead to see what fires.</p>
+        <p className="muted">Lookout checks deadlines and “still there” rules every minute. Jump ahead to see what fires.</p>
         <div className="row">
           <input className="input" style={{ width: 140 }} type="time" value={clock} onChange={(e) => setClock(e.target.value)} />
           <button className="btn" disabled={busy} onClick={() => run(`Clock checked at ${clock}`, () => api.demoTick(clock))}>

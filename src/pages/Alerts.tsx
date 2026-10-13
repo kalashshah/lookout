@@ -5,7 +5,7 @@ export function Alerts({ tz, alerts }: { tz: string; alerts: Alert[] }) {
     <main>
       <section className="hero">
         <h1>Alerts</h1>
-        <p>Everything Watchword told you about, newest first. Alerts are also emailed if you add an address in Settings.</p>
+        <p>Everything Lookout told you about, newest first. Alerts are also emailed if you add an address in Settings.</p>
       </section>
       <section className="section stack">
         {!alerts.length && <div className="empty">No alerts yet. They’ll appear here the moment a rule fires.</div>}

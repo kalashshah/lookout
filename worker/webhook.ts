@@ -34,7 +34,7 @@ webhook.post('/ring/webhook', async (c) => {
     .bind(
       data.id, meta.request_id, data.attributes?.source ?? null, data.type, data.attributes?.sub_type ?? null,
       data.attributes?.timestamp ?? Date.now(), handled ? 'pending' : 'ignored',
-      c.req.header('X-Watchword-Source') === 'feeder' ? 'feeder' : 'ring',
+      c.req.header('X-Lookout-Source') === 'feeder' ? 'feeder' : 'ring',
     )
     .run()
   if (!res.meta.changes) return c.json({ status: 'duplicate' })

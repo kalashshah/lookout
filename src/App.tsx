@@ -69,7 +69,7 @@ export function App() {
   const [authed, setAuthed] = useState<boolean | null>(null)
   const [settings, setSettings] = useState<Settings | null>(null)
   const feed = useAlertFeed(!!authed)
-  const [lastSeenId, setLastSeenId] = useState(() => localStorageGet('ww-alerts-seen'))
+  const [lastSeenId, setLastSeenId] = useState(() => localStorageGet('lookout-alerts-seen'))
 
   const loadSettings = useCallback(() => api.settings().then(setSettings), [])
 
@@ -87,7 +87,7 @@ export function App() {
     const newest = feed.alerts[0]?.id
     if (path === '/alerts' && newest) {
       setLastSeenId(newest)
-      localStorageSet('ww-alerts-seen', newest)
+      localStorageSet('lookout-alerts-seen', newest)
     }
   }, [path, feed.alerts])
 
@@ -104,7 +104,7 @@ export function App() {
     <div className="shell">
       <header className="top">
         <a className="brand" href="/" onClick={(e) => (e.preventDefault(), go('/'))}>
-          <span className="brand-dot" /> Watchword
+          <span className="brand-dot" /> Lookout
         </a>
         <nav className="nav">
           {PAGES.map((p) => (

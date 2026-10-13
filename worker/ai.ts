@@ -52,7 +52,7 @@ export async function takeBudget(env: Env, day: string): Promise<boolean> {
 
 const COMPILE_SYSTEM = `You turn a homeowner's request about their Ring doorbell camera into watch rules.
 Reply with ONLY a JSON array. Each item:
-{"summary": short plain-English restatement (max 12 words),
+{"summary": a short title for the alert, max 8 words, no "alert me"/"tell me" (e.g. "Kids home from school", "Nobody home by 4pm"),
  "kind": "arrival" (tell me when X shows up) | "deadline" (alert if X has NOT shown up by a time) | "duration" (alert if X stays longer than N minutes) | "window" (alert on any X during a time range),
  "look_for": what the camera should visually look for, e.g. "children",
  "days": array of weekday numbers 0=Sun..6=Sat, [] for every day,

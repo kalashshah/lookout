@@ -9,7 +9,7 @@ export function ringPayload(deviceId: string, type: FeedType, at: number, subTyp
       version: '1.1',
       time: new Date().toISOString(),
       request_id: crypto.randomUUID(),
-      account_id: 'ava1.ring.account.watchword-demo',
+      account_id: 'ava1.ring.account.lookout-demo',
     },
     data: {
       id: `${deviceId}_${short}_${at}`,

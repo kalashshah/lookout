@@ -1,14 +1,14 @@
-# Watchword
+# Lookout
 
 **Tell your Ring camera what to watch for — in plain words.**
 
 > “Tell me when the kids get home from school. If nobody’s home by 4pm, alert me.”
 
-Watchword turns that sentence into watch rules, checks every Ring event against them with Amazon Bedrock, and alerts you when something happens — **or when it doesn’t**. Ring’s alerts fire on events; Watchword also catches the absence of one (nobody home by 4pm) and things that last too long (a package sitting on the porch for 2 hours).
+Lookout turns that sentence into watch rules, checks every Ring event against them with Amazon Bedrock, and alerts you when something happens — **or when it doesn’t**. Ring’s alerts fire on events; Lookout also catches the absence of one (nobody home by 4pm) and things that last too long (a package sitting on the porch for 2 hours).
 
 Built for the Amazon “Build, Ship, Shape” hackathon — **Ring track** + **AWS Builder** mini challenge.
 
-Live: https://watchword.kalashshah47.workers.dev
+Live: https://lookout.kalashshah47.workers.dev
 
 ## Who it’s for
 
@@ -76,7 +76,7 @@ Cloudflare Workers (Hono) · D1 · R2 · Cron Triggers · Email Service · React
 ```bash
 pnpm install
 cp .dev.vars.example .dev.vars        # APP_TOKEN, RING_HMAC_KEY, AWS keys
-npx wrangler d1 migrations apply watchword --local
+npx wrangler d1 migrations apply lookout --local
 pnpm dev                              # http://localhost:5173 — sign in with APP_TOKEN
 pnpm test                             # engine, parsers, HMAC
 ```
@@ -90,9 +90,9 @@ node scripts/feed.ts http://localhost:5173/ring/webhook <RING_HMAC_KEY> motion_d
 Deploy:
 
 ```bash
-npx wrangler d1 create watchword && npx wrangler r2 bucket create watchword-frames
+npx wrangler d1 create lookout && npx wrangler r2 bucket create lookout-frames
 # put the database_id in wrangler.jsonc, set APP_URL / EMAIL_FROM vars
-npx wrangler d1 migrations apply watchword --remote
+npx wrangler d1 migrations apply lookout --remote
 pnpm run deploy
 npx wrangler secret put APP_TOKEN        # and RING_HMAC_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 ```

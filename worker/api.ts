@@ -1,4 +1,4 @@
-// JSON API for the Watchword UI. Everything here sits behind the household cookie.
+// JSON API for the Lookout UI. Everything here sits behind the household cookie.
 import { Hono } from 'hono'
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
 import { CompileError, compileRules, parseRules, takeBudget } from './ai'
@@ -13,7 +13,7 @@ import type { Rule } from './types'
 
 export const api = new Hono<{ Bindings: Env }>()
 
-const COOKIE = 'ww'
+const COOKIE = 'lookout'
 const SETTINGS_KEYS = ['tz', 'email', 'ring_token', 'device_id'] as const
 const utcDay = () => new Date().toISOString().slice(0, 10)
 
@@ -195,7 +195,7 @@ api.post('/demo/event', async (c) => {
     {
       method: 'POST',
       body: raw,
-      headers: { 'content-type': 'application/json', 'X-Signature': await signBody(c.env.RING_HMAC_KEY, raw), 'X-Watchword-Source': 'feeder' },
+      headers: { 'content-type': 'application/json', 'X-Signature': await signBody(c.env.RING_HMAC_KEY, raw), 'X-Lookout-Source': 'feeder' },
     },
     c.env,
     c.executionCtx,

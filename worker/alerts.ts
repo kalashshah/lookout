@@ -23,11 +23,11 @@ export async function fireAlert(
     const when = new Date(at).toLocaleString('en-US', { timeZone: settings.tz, timeStyle: 'short', dateStyle: 'medium' })
     await env.EMAIL.send({
       to: settings.email,
-      from: { email: env.EMAIL_FROM, name: 'Watchword' },
+      from: { email: env.EMAIL_FROM, name: 'Lookout' },
       subject: `${f.severity === 'urgent' ? '⚠️ ' : ''}${f.title}`,
       text: `${f.title}\n${body}\n${when}\n\n${env.APP_URL}/alerts`,
       html: `<h2 style="margin:0 0 8px">${esc(f.title)}</h2><p>${esc(body)}</p><p style="color:#666">${esc(when)}</p>
-<p><a href="${env.APP_URL}/alerts">Open Watchword</a></p>`,
+<p><a href="${env.APP_URL}/alerts">Open Lookout</a></p>`,
       attachments: image
         ? [{ content: await image.arrayBuffer(), filename: 'snapshot.jpg', type: 'image/jpeg', disposition: 'attachment' }]
         : undefined,

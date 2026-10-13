@@ -10,7 +10,7 @@ const times = process.argv.includes('--twice') ? 2 : 1
 for (let i = 0; i < times; i++) {
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', 'X-Signature': sig, 'X-Watchword-Source': 'feeder' },
+    headers: { 'content-type': 'application/json', 'X-Signature': sig, 'X-Lookout-Source': 'feeder' },
     body: raw,
   })
   console.log(res.status, await res.text())

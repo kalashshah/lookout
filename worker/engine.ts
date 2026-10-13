@@ -89,3 +89,15 @@ const TITLES: Record<Fire['kind'], (s: string) => string> = {
 function fire(rule: Rule, kind: Fire['kind'], severity: Fire['severity']): Fire {
   return { ruleId: rule.id, kind, title: TITLES[kind](rule.summary), severity }
 }
+
+/** Epoch ms for a local wall-clock date + "HH:MM" in `tz` (used by the demo clock). */
+export function atLocal(date: string, hm: string, tz: string): number {
+  const guess = Date.parse(`${date}T${hm}:00Z`)
+  // Shift by the zone's offset at the guess, then once more in case the offset differs at the result (DST edges).
+  const offsetAt = (ms: number) => {
+    const lt = localTime(ms, tz)
+    return Date.parse(`${lt.date}T${lt.hm}:00Z`) - ms
+  }
+  const first = guess - offsetAt(guess)
+  return guess - offsetAt(first)
+}

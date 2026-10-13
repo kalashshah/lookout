@@ -43,7 +43,8 @@ export async function processEvent(env: Env, eventId: string): Promise<void> {
     result = await evaluateFrame(env, image, rules)
   } catch (e) {
     console.error('evaluate failed', e)
-    return void (await setStatus(env, ev.id, 'unanalyzed'))
+    // Retry a failed analysis once (from the cron), then give up so a broken key can't drain the daily budget.
+    return void (await setStatus(env, ev.id, ev.status === 'unanalyzed' ? 'error' : 'unanalyzed'))
   }
 
   const ins = env.DB.prepare(

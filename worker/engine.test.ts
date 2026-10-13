@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { durationDue, inWindow, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
+import { atLocal, durationDue, inWindow, localTime, matchedInWindowToday, onMatch, onTick } from './engine'
 import type { Rule } from './types'
 
 const TZ = 'America/Los_Angeles'
@@ -137,5 +137,17 @@ describe('matchedInWindowToday', () => {
   })
   it('counts a match inside today\'s window', () => {
     expect(matchedInWindowToday(r, [at('13:00'), at('15:10')], at('16:00'), TZ)).toBe(true)
+  })
+})
+
+describe('atLocal', () => {
+  it('turns a local date + HH:MM into the right instant', () => {
+    expect(atLocal('2026-10-13', '16:00', TZ)).toBe(at('16:00'))
+  })
+  it('works for a zone east of UTC', () => {
+    expect(atLocal('2026-10-14', '08:30', 'Asia/Kolkata')).toBe(Date.parse('2026-10-14T08:30:00+05:30'))
+  })
+  it('round-trips through localTime', () => {
+    expect(localTime(atLocal('2026-10-13', '00:05', TZ), TZ)).toMatchObject({ date: '2026-10-13', hm: '00:05' })
   })
 })

@@ -2,6 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { parseEvaluation, parseRules } from './ai'
 
 describe('parseEvaluation', () => {
+  it('accepts ids echoed with the prompt\'s "id " label (seen from Nova 2 Lite)', () => {
+    const raw = '```json\n{"caption":"box","matches":[{"id":"id r1","match":true,"confidence":0.9,"reason":"box"}]}\n```'
+    expect(parseEvaluation(raw, ['r1']).matches[0].match).toBe(true)
+  })
+
   const ids = ['r1', 'r2']
 
   it('parses a fenced json block', () => {

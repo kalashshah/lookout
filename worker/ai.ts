@@ -54,7 +54,7 @@ const COMPILE_SYSTEM = `You turn a homeowner's request about their Ring doorbell
 Reply with ONLY a JSON array. Each item:
 {"summary": short plain-English restatement (max 12 words),
  "kind": "arrival" (tell me when X shows up) | "deadline" (alert if X has NOT shown up by a time) | "duration" (alert if X stays longer than N minutes) | "window" (alert on any X during a time range),
- "look_for": what the camera should visually look for, e.g. "a child with a school backpack",
+ "look_for": what the camera should visually look for, e.g. "children",
  "days": array of weekday numbers 0=Sun..6=Sat, [] for every day,
  "start": "HH:MM" 24h or null, "end": "HH:MM" 24h or null,
  "minutes": integer for duration rules, else null,
@@ -63,6 +63,8 @@ Rules:
 - One sentence can need two rules, e.g. "tell me when the kids get home, alert me if not by 4pm" → an arrival rule and a deadline rule with the same look_for and window.
 - A deadline rule needs "end" (the deadline) and should have "start" (when to begin expecting it; default 2 hours before end).
 - "look_for" must describe appearance, clothing, objects or vehicles. Never identify a specific person by name or face; describe them instead ("a person carrying cleaning supplies").
+- Keep "look_for" to what the user said; don't add details they didn't mention ("the kids" → "children", not "children with backpacks").
+- "look_for" is what one still frame would show: who/what is in view ("children with school backpacks"), not an action a photo can't prove ("entering the house", "leaving").
 - Only describe things a front-door camera could see.`
 
 export async function compileRules(env: Env, text: string, tz: string): Promise<RuleDraft[]> {
@@ -113,10 +115,10 @@ export function parseRules(raw: string, text: string): RuleDraft[] {
 
 const EVAL_SYSTEM = `You check a single frame from a front-door security camera against a list of things to look for.
 Reply with ONLY JSON: {"caption": one short sentence describing the scene, "matches": [{"id": rule id, "match": true|false, "confidence": 0..1, "reason": max 12 words}]}
-Include every rule id. Describe what is visible; never identify or name people. Ignore the Ring watermark overlay.`
+Use the ids exactly as given. Include every rule id. A still frame can't show motion: someone approaching, at, or walking away from the door counts as arriving or leaving. Describe what is visible; never identify or name people. Ignore the Ring watermark overlay.`
 
 export async function evaluateFrame(env: Env, image: Uint8Array, rules: Rule[]): Promise<Evaluation> {
-  const list = rules.map((r) => `- id ${r.id}: ${r.look_for}`).join('\n')
+  const list = rules.map((r) => `- ${r.id}: ${r.look_for}`).join('\n')
   const { text } = await converse(env, EVAL_SYSTEM, [
     { image: { format: 'jpeg', source: { bytes: toBase64(image) } } },
     { text: `Things to look for:\n${list}` },
@@ -133,7 +135,7 @@ export function parseEvaluation(raw: string, ruleIds: string[]): Evaluation {
   } catch {
     return { caption: '', matches: [] }
   }
-  const byId = new Map((Array.isArray(data.matches) ? data.matches : []).map((m) => [String(m.id), m]))
+  const byId = new Map((Array.isArray(data.matches) ? data.matches : []).map((m) => [String(m.id).replace(/^id\s+/i, ''), m]))
   return {
     caption: typeof data.caption === 'string' ? data.caption : '',
     matches: ruleIds.map((id) => {

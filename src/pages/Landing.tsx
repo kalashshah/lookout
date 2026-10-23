@@ -263,7 +263,7 @@ function SignIn({ onClose, onDone }: { onClose: () => void; onDone: () => void }
         }}
       >
         <h2 id="signin-title">Welcome home</h2>
-        <p className="muted">Enter your household access code.</p>
+        <p className="muted">Enter your household access code. Hackathon judges: you'll find it in the testing instructions on our Devpost submission.</p>
         <div className="field">
           <label htmlFor="token">Household access code</label>
           <input id="token" className="input" type="password" value={token} onChange={(e) => setToken(e.target.value)} autoFocus />

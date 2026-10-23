@@ -28,16 +28,16 @@ Format: task · steps · expected vs actual · severity · workaround · suggest
 
 ## 4. Finding the Bedrock inference profile id for Nova 2 Lite
 - **Task:** Call Nova 2 Lite through the Bedrock Converse API from a serverless backend.
-- **Steps:** Enabled model access in the Bedrock console, copied the model id from the model catalog, and called `/model/{id}/converse` in us-east-1.
-- **Expected vs actual:** Expected the catalog model id to work for on-demand calls. Nova 2 Lite has to be called through a cross-region inference profile, and the id we needed (`us.amazon.nova-2-lite-v1:0`) is listed on a different page from the model. Finding it took longer than writing the integration.
-- **Severity:** Low. It costs time once, then it's done.
-- **Workaround:** Found the profile id under Cross-region inference and set it as `MODEL_ID`.
-- **Suggestion:** Show the inference profile id next to the model id on each model page, and name it in the error returned when a model needs a profile.
+- **Steps:** Looked up the model in the Bedrock docs and console to find the id to put in the `/model/{id}/converse` URL.
+- **Expected vs actual:** Expected the model page to give the id to call. The id that works is the cross-region inference profile (`us.amazon.nova-2-lite-v1:0`), and finding it took longer than writing the integration itself.
+- **Severity:** Low. It costs time once.
+- **Workaround:** Set the inference profile id as `MODEL_ID` in config.
+- **Suggestion:** Show the inference profile id next to the model id on each model page and in the Converse quickstart.
 
-## 5. Nova 2 Lite echoes ids with a prefix, and confidence clusters at 0.95
-- **Task:** Get a per-rule match back from one multimodal call (snapshot plus every active rule, strict JSON out, temperature 0).
-- **Steps:** Labelled each rule in the prompt as `id <rule-id>` and asked for `{"matches":[{"id","match","confidence","reason"}]}`.
-- **Expected vs actual:** Expected the bare ids back. The model sometimes returned `"id kids"` instead of `"kids"`, which silently dropped that rule's match. Confidence values also sat at 0.95 almost every time, so they were little use as a threshold.
+## 5. Nova 2 Lite sometimes echoes rule ids with an "id " prefix
+- **Task:** Get a per-rule match back from one multimodal call (snapshot plus every active rule, JSON out, temperature 0).
+- **Steps:** Listed rules in the prompt as `- <id>: <what to look for>`, and the system prompt asks for `{"caption", "matches":[{"id","match","confidence","reason"}]}` with "Use the ids exactly as given."
+- **Expected vs actual:** Expected the ids back exactly. The model occasionally returned them as `"id <rule-id>"`, which would silently drop that rule's match. Confidence values also cluster around 0.95, so they're less useful than the `reason` text.
 - **Severity:** Medium. A dropped match means a missed alert, and nothing errors.
-- **Workaround:** The parser strips a leading `id ` before matching (`worker/ai.ts`), and the app relies on the `match` flag and the `reason` text, not the confidence number. `scripts/eval.ts` runs every demo scene through the real model to catch regressions.
-- **Suggestion:** Support structured output or a JSON schema on Converse for Nova, so field values come back exactly as specified, and document how confidence values are meant to be read.
+- **Workaround:** The parser strips a leading `id ` before matching (`parseEvaluation()` in `worker/ai.ts`), and the app relies on the `match` flag and `reason`, not confidence. `scripts/eval.ts` runs every demo scene through the real model to catch regressions.
+- **Suggestion:** Support a JSON schema or structured output for Nova on Converse, so field values come back exactly as specified.

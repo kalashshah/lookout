@@ -8,7 +8,7 @@ Lookout turns that sentence into watch rules, checks every Ring event against th
 
 Built for the Amazon “Build, Ship, Shape” hackathon — **Ring track** + **AWS Builder** mini challenge.
 
-Live: https://lookout.kalashshah47.workers.dev
+Live: https://lookout.keronlabs.com
 
 ## Who it’s for
 

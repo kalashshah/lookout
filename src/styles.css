@@ -41,8 +41,7 @@ a { color: inherit; }
 /* top bar */
 .top { display: flex; align-items: center; gap: 16px; padding: 18px 0; position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); z-index: 10; }
 .brand { display: flex; align-items: center; gap: 9px; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
-.brand-dot { width: 22px; height: 22px; border-radius: 7px; background: var(--text); position: relative; }
-.brand-dot::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: var(--lime); }
+.brand-dot { width: 30px; height: 30px; margin: -4px -2px; background: url('/logo.svg') center / contain no-repeat; }
 .nav { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
 .nav a { padding: 8px 12px; border-radius: 999px; color: var(--muted); text-decoration: none; font-weight: 500; white-space: nowrap; }
 .nav a:hover { color: var(--text); }

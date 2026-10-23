@@ -4,6 +4,8 @@
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "routes": [{ "pattern": "lookout.keronlabs.com", "custom_domain": true }],
   "assets": {
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
@@ -13,6 +15,6 @@
   "r2_buckets": [{ "binding": "FRAMES", "bucket_name": "lookout-frames" }],
   "send_email": [{ "name": "EMAIL" }],
   "triggers": { "crons": ["* * * * *"] },
-  "vars": { "AWS_REGION": "us-east-1", "MODEL_ID": "us.amazon.nova-2-lite-v1:0", "EMAIL_FROM": "alerts@info.rekkaai.com", "APP_URL": "https://lookout.kalashshah47.workers.dev" },
+  "vars": { "AWS_REGION": "us-east-1", "MODEL_ID": "us.amazon.nova-2-lite-v1:0", "EMAIL_FROM": "lookout@mail.keronlabs.com", "APP_URL": "https://lookout.keronlabs.com" },
   "observability": { "enabled": true }
 }

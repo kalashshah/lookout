@@ -6,3 +6,4 @@ dist/
 .env*
 !.dev.vars.example
 .secrets.env
+.DS_Store
